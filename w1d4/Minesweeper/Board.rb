@@ -3,7 +3,7 @@ require 'byebug'
 class Board
   attr_reader :grid
 
-  def initialize(board_size = 9, num_bombs = 5)
+  def initialize(board_size = 9, num_bombs = 10)
     @grid = Array.new(board_size) { Array.new(board_size) { Tile.new } }
     @num_bombs = num_bombs
   end

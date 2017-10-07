@@ -43,15 +43,29 @@ class Tile
   #   end
   # end
 
+  # def recursive_reveal(pos, board)
+  #   self.revealed = true
+  #   return false if !@bomb_neighbors.zero? && !board[pos].revealed
+  #   neighbors(pos,board).keys.each do |pos1|
+  #     if board[pos1].bomb_neighbors.zero? && !board[pos1].revealed
+  #       recursive_reveal(pos1,board)
+  #     end
+  #   end
+  # end
+
   def recursive_reveal(pos, board)
-    self.revealed = true
-    return false if !@bomb_neighbors.zero? && !board[pos].revealed
-    neighbors(pos,board).keys.each do |pos1|
-      if board[pos1].bomb_neighbors.zero? && !board[pos1].revealed
-        recursive_reveal(pos1,board)
+    board.grid.each_with_index do |row, x|
+      row.each_with_index do |el, y|
+        posi = [x,y]
+        if board[posi].bomb_neighbors.zero?
+          board[posi].revealed = true
+          p " -----"
+          p neighbors(posi, board).keys
+          neighbors(posi, board).keys.each do |position|
+            board[position].revealed = true
+          end
+        end
       end
     end
   end
-
-
 end
