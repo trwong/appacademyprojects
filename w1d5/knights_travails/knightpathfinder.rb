@@ -1,4 +1,4 @@
-require_relative "00_tree_node.rb"
+require_relative "polytreenode.rb"
 
 class KnightPathFinder
   MOVES = [[1,2], [2,1], [-1,2], [1, -2], [-2,1],
