@@ -7,18 +7,18 @@ class Display
   end
 
   CHESS = {
-    w_king: "\u2654",
-    w_queen: "\u2655",
-    w_rook: "\u2656",
-    w_bishop: "\u2657",
-    w_knight: "\u2658",
-    w_pawn: "\u2659",
-    b_king: "\u265A",
-    b_queen: "\u265B",
-    b_rook: "\u265C",
-    b_bishop: "\u265D",
-    b_knight: "\u265E",
-    b_pawn: "\u265F",
+    w_king: "♔",
+    w_queen: "♕",
+    w_rook: "♖",
+    w_bishop: "♗",
+    w_knight: "♘",
+    w_pawn: "♙",
+    b_king: "♚",
+    b_queen: "♛",
+    b_rook: "♜",
+    b_bishop: "♝",
+    b_knight: "♞",
+    b_pawn: "♟",
     null: " "
   }
 
@@ -27,40 +27,19 @@ class Display
     @cursor.board.grid.each_with_index do |row, x|
       row.each_with_index do |tile, y|
         pos = [x,y]
-        item = CHESS[tile.symbol].encode('utf-8')
-        if self[pos] == @cursor.cursor_pos && @cursor.selected
-          item.blue.on_red.blink#.colorize(:background => :light_black)
-        elsif self[pos] == @cursor.cursor_pos
-          item.blue.on_red#.colorize(:background => :red)
+        item = "#{CHESS[tile.symbol]} "
+        if pos == @cursor.cursor_pos && @cursor.selected
+          print item.colorize(:background => :red)
+        elsif pos == @cursor.cursor_pos
+          print item.colorize(:background => :light_black)
         else
-          item.blue.on_red#.colorize(:background => :light_yellow)
+          print item.colorize(:background => :light_white)
         end
-        print "#{item} "
+
       end
       puts
     end
   end
-  #     if pos == @cursor.cursor_pos && @cursor.selected
-  #       if self[pos].null
-  #         print "|   |".colorize(:green)
-  #       else
-  #         print "| X |".colorize(:green)
-  #       end
-  #     elsif pos == @cursor.cursor_pos
-  #       if self[pos].null
-  #         print "|   |".colorize(:red)
-  #       else
-  #         print "| X |".colorize(:red)
-  #       end
-  #     elsif self[pos].null
-  #       print "|   |"
-  #     else
-  #       print "| X |"
-  #     end
-  #   end
-  #   puts
-  # end
-  # puts "========================================"
 
   def move_cursor
     while true
@@ -82,4 +61,5 @@ class Display
   end
 end
 
-Display.new.move_cursor
+d = Display.new
+d.move_cursor

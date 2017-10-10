@@ -1,4 +1,6 @@
 require_relative 'piece.rb'
+require_relative 'display.rb'
+require_relative 'cursor.rb'
 
 class Board
   attr_reader :grid
@@ -12,11 +14,11 @@ class Board
       row.each_with_index do |tile, y|
         pos = [x,y]
         if x.between?(0,1)
-          self[pos] = Piece.new(pos, false, :w_pawn)
+          self[pos] = Piece.new(pos, false, :w_pawn, self)
         elsif x.between?(6,7)
-          self[pos] = Piece.new(pos, false, :b_pawn)
+          self[pos] = Piece.new(pos, false, :b_pawn, self)
         else
-          self[pos] = Piece.new(pos, true)
+          self[pos] = Piece.new(pos, true, :null, self)
         end
       end
     end
