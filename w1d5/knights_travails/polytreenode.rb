@@ -32,6 +32,8 @@ class PolyTreeNode
 
   def dfs(target_value)
     stack = [self]
+    p "target #{target_value}"
+    p "self.value #{self.value}"
     return self if self.value == target_value
     stack.shift
     stack = self.children + stack
@@ -41,6 +43,21 @@ class PolyTreeNode
     end
     nil
   end
+
+ #  def dfs(target = nil, &prc)
+ #   raise "Need a proc or target" if [target, prc].none?
+ #   prc ||= Proc.new { |node| node.value == target }
+ #   p "target #{target}"
+ #   p "self.value #{self.value}"
+ #   return self if prc.call(self)
+ #
+ #   children.each do |child|
+ #     result = child.dfs(&prc)
+ #     return result unless result.nil?
+ #   end
+ #
+ #   nil
+ # end
 
   def bfs(target_value)
     que = [self]

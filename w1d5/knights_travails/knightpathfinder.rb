@@ -1,9 +1,9 @@
 require_relative "polytreenode.rb"
 
 class KnightPathFinder
-  MOVES = [[1,2], [2,1], [-1,2], [1, -2], [-2,1],
-    [-2,-1], [2,-1], [-1, -2]]
-  attr_accessor :visited_positions
+  MOVES = [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2,1],
+    [2,-1], [1,-2], [-1, -2]]
+  attr_accessor :visited_positions, :start_pos, :board
 
 
   def initialize(start_pos)
@@ -20,20 +20,13 @@ class KnightPathFinder
       moves = new_move_positions(shift_pos)
       que += moves
       moves.each do |move|
-        self[move] = PolyTreeNode.new(move)
-        self[move].parent = self[shift_pos]
+        begin
+          self[move] = PolyTreeNode.new(move)
+          self[move].parent = self[shift_pos]
+        rescue NoMethodError => e
+        end
       end
     end
-  end
-
-  def bfs(target_value)
-    que = [self]
-    until que.empty?
-      check_shift = que.shift
-      return check_shift if check_shift.value == target_value
-      que.concat(check_shift.children)
-    end
-    nil
   end
 
   def new_move_positions(pos)
@@ -54,7 +47,12 @@ class KnightPathFinder
   end
 
   def valid_move?(pos)
-    pos[0] >= @board.length || pos[1] >= @board.length || pos[0] < 0 || pos[1] < 0
+    # pos[0] <= @board.length && pos[1] <= @board.length && pos[0] > 0 && pos[1] > 0
+    pos.all? { |coord| coord >= 0 && coord < @board.length }
+  end
+
+  def find_path(end_pos)
+    self[@start_pos].dfs(end_pos)
   end
 
   def [](pos)
@@ -73,5 +71,7 @@ end
 p pos = [2,4]
 p kpf = KnightPathFinder.new(pos)
 p kpf.valid_moves(pos)
-# p kpf.build_move_tree(pos)
-# p kpf.visited_positions
+p kpf.build_move_tree(pos)
+p kpf.visited_positions
+# p kpf[kpf.start_pos]
+p kpf.find_path([3,5])
