@@ -1,3 +1,5 @@
+# TODO: CHECK WHY MOVES AREN'T CORRECT
+
 require_relative "polytreenode.rb"
 
 class KnightPathFinder
