@@ -1,12 +1,12 @@
 require 'singleton'
 
 class Piece
-  attr_reader :pos, :symbol, :board, :color
+  attr_reader :symbol, :color
+  attr_accessor :board, :pos
 
-  def initialize(pos, color, symbol = :null, board)
+  def initialize(pos, color, board)
     @pos = pos
     @color = color
-    @symbol = symbol
     @board = board
   end
 
@@ -21,16 +21,15 @@ class Piece
     poss_moves = poss_moves.select do |move|
       @board[move].symbol == :null || @board[move].color != self.color
     end
+    # Remove below line to stop infinite loop
+    # poss_moves.reject { |move| exclude_check_moves(move) }
   end
 
-  def to_s
+  def exclude_check_moves(end_pos)
+    duped = @board.dup
+    duped.move_piece!(@pos, end_pos)
+    duped.in_check?(@color)
   end
-
-  def empty?
-  end
-
-  # def symbol()
-  # end
 end
 
 module SteppingPiece
@@ -242,8 +241,9 @@ class Pawn < Piece
     elsif self.color == :white
       attack = [[-1, -1], [-1, 1]]
     end
-    attack.select do |coord|
+    attack.each do |coord|
       pos = [@pos[0] + coord[0], @pos[1] + coord[1]]
+      next if pos.any? { |el| !el.between?(0,7) }
       if @board[pos].color != self.color && @board[pos].color != :null
         moves << pos
       end
@@ -253,9 +253,8 @@ class Pawn < Piece
 end
 #
 class NullPiece < Piece
-  # include Singleton
-
-  def initalize
+  include Singleton
+  def initialize
   end
 
   def symbol

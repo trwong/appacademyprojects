@@ -42,8 +42,8 @@ class Display
           print item.colorize(:background => :red).blink
         elsif pos == @cursor.cursor_pos
           print item.colorize(:background => :light_black)
-        elsif tile.color == :black
-          print item.colorize(:color => :black, :background => :light_white)
+        elsif (x.even? && y.even?) || (x.odd? && y.odd?)
+          print item.colorize(:background => :white)
         else
           print item.colorize(:background => :light_white)
         end
@@ -73,5 +73,7 @@ class Display
   end
 end
 
-d = Display.new(Board.new())
+
+board = Board.new()
+d = Display.new(board)
 d.move_cursor
