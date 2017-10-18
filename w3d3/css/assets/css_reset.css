@@ -1,0 +1,19 @@
+body, header, nav, ul, li, h2, aside, section, figure {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+body {
+  line-height: 1.5;
+}
+
+img {
+  width: 100%;
+}
