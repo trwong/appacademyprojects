@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+print "Please input your email: "
+input = gets.chomp
+raise "You don't exist!" unless User.exists?(email: input)
+user = User.find_by email: input
+
+print "Do you want to Visit a URL or Shorten a URL?: "
+decision = gets.chomp
+
+if decision == 'S'
+  print "Please input long URL: "
+  long_url = gets.chomp
+  new_url = ShortenedUrl.random_code(user, long_url)
+  puts new_url.short_url
+  puts "Goodbye!"
+elsif decision == 'V'
+  print "Please input short URL: "
+  short_url = gets.chomp
+  url_obj = ShortenedUrl.find_by short_url: short_url
+  Visit.record_visit!(user, url_obj)
+  Launchy.open url_obj.url
+  puts "Goodbye!"
+end
