@@ -1,0 +1,12 @@
+<h1>All Cats</h1>
+<%= button_to 'Create Cat', new_cat_url, method: :get %>
+<br>
+<% @cats.reverse.each do |cat| %>
+  <li> Name: <%= cat.name %> </li>
+  <li> Gender: <%= cat.sex %> </li>
+  <li> Age: <%= cat.age %> </li>
+  <%= button_to 'Edit Cat', edit_cat_url(cat), method: :get %>
+  <%= button_to 'Show Cat', cat_url(cat), method: :get %>
+
+  <br>
+<% end %>

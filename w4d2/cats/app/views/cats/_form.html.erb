@@ -1,0 +1,51 @@
+
+
+<% if action == :edit %>
+  <% action_url = cat_url(cat) %>
+<% else%>
+  <% action_url = cats_url %>
+<% end %>
+
+<form action=" <%= action_url %> " method="post">
+  <% if action == :edit %>
+    <input type="hidden" name="_method" value="patch">
+  <% end %>
+  <label for="name">Name</label>
+  <input id="name" type="text" name="cat[name]" value=" <%= cat.name %>">
+  <br>
+  <label for="sex">Sex</label>
+  M<input id="sex" type="radio" name="cat[sex]" value="M"  <%= (cat.sex == 'M' || cat.sex.nil?) ? "checked='checked'" : "" %> />
+  F<input id="sex" type="radio" name="cat[sex]" value="F" <%= cat.sex == 'F' ? "checked='checked'" : "" %> />
+
+  <br>
+  <label for="color">Color</label>
+  <select id="color" name="cat[color]">
+    <option disabled <%= cat.color ? nil : 'selected' %> >--Select Color--</option>
+    <option value="black" <%= cat.color == 'black' ? 'selected' : '' %>>Black</option>
+    <option value="white" <%= cat.color == 'white' ? 'selected' : '' %>>White</option>
+    <option value="calico" <%= cat.color == 'calico' ? 'selected' : '' %>>Calico</option>
+    <option value="orange" <%= cat.color == 'orange' ? 'selected' : '' %>>Orange</option>
+    <option value="gray" <%= cat.color == 'gray' ? 'selected' : '' %>>Gray</option>
+    <option value="brown" <%= cat.color == 'brown' ? 'selected' : '' %>>Brown</option>
+  </select>
+
+  <br>
+
+  <label for="birth_date">Birth Date</label>
+  <input id="birth_date" type="date" name="cat[birth_date]" value="<%= cat.birth_date %>">
+                                                                  <!-- Never include empty spaces in your value for default dates! -->
+  <br>
+
+  <label for="description">Description</label>
+  <br>
+  <textarea name="cat[description]" rows="8" cols="50"><%= cat.description %>
+  </textarea>
+
+  <br>
+
+  <input type="submit" value="<%= action_url == :edit ? 'Edit' : "Save" %>">
+</form>
+
+<br>
+
+<%= button_to 'Cats', cats_url, method: :get %>
