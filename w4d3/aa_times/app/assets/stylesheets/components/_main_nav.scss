@@ -1,0 +1,42 @@
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.left-nav > ul,
+.right-nav > ul {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.left-nav > ul > li {
+  margin: 20px;
+  font-weight: bold;
+}
+
+.right-nav > ul > li {
+  margin: 3px;
+  text-transform: uppercase;
+}
+
+.right-nav > ul > li:last-of-type {
+}
+
+.left-nav > ul > li:hover,
+.right-nav > ul > li:last-of-type:hover {
+  background-color: $light-gray;
+}
+
+.left-nav span {
+}
+
+
+.right-nav i {
+  font-size: 20px;
+}
+
+#gear-dropdown-btn {
+  position: relative;
+}

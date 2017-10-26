@@ -1,0 +1,22 @@
+.sections-nav {
+  border-bottom: 1px solid $dark-gray;
+  margin-bottom: 15px;
+}
+
+.sections-nav ul {
+  display: flex;
+  justify-content: center;
+  // align-items: center;
+}
+
+.sections-nav li {
+  margin: 10px 6px;
+}
+
+.sections-nav li:first-child {
+  background-color: $light-gray;
+}
+
+.sections-nav li:last-child {
+  text-decoration: underline;
+}

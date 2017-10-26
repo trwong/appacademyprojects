@@ -1,0 +1,47 @@
+
+h2 {
+  text-decoration: underline;
+  font-size: 25px;
+  font-weight: bold;
+  font-style: italic;
+  font-family: $serif;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  font-family: $serif;
+
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 16px;
+  font-family: $serif;
+  margin: 5px;
+}
+
+.author {
+  color: $gray;
+  font-family: $serif;
+  margin: 10px;
+  text-align: left;
+}
+
+// .office-img {
+//   width: 100%
+// }
+
+img {
+  overflow: hidden;
+  width: 100%;
+}
+
+hr {
+  width: 50%;
+}
+
+.col li  {
+  list-style-type: disc;
+}
