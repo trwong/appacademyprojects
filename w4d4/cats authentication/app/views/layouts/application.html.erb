@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NinetyNineCats</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+  <header>
+
+
+    <% if (current_user) %>
+    <%= current_user.username  %>
+    <form action="<%= sessions_url %>" method="POST">
+
+      <input type="hidden"
+       name="authenticity_token"
+       value="<%= form_authenticity_token %>">
+
+
+        <input type="hidden" value="delete" name="_method" />
+        <input type="submit" value="Logout" />
+      </form>
+    <% else %>
+    <form class="" action="<%= new_sessions_url %>" method="POST">
+      
+      <input type="hidden"
+             name="authenticity_token"
+             value="<%= form_authenticity_token %>">
+
+      <input type="hidden" value="GET" name="_method" />
+      <input type="submit" value="login" />
+    </form>
+
+    <% end %>
+  </header>
+  <body>
+    <%= yield %>
+  </body>
+</html>

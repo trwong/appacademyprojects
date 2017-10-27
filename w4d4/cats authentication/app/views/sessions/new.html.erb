@@ -1,0 +1,29 @@
+<h1> login to this fantastic site</h1>
+
+<ul>
+  <% if (flash[:errors]) %>
+<% flash[:errors].each do |error|   %>
+  <li>
+<%= error %>
+</li>
+<% end %>
+<% end %>
+</ul>
+
+
+
+<form class="login" action= "<%= sessions_url %>"  method="POST">
+
+  <input type="hidden"
+         name="authenticity_token"
+         value="<%= form_authenticity_token %>">
+
+
+  <label for="user_username">Username</label>
+  <input type="text" name="user[username]" id="user_username">
+
+  <label for="user_password">password</label>
+  <input type="text" name="user[password]" id="user_password">
+
+  <input type="submit"  value="log in">
+</form>
