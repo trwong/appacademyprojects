@@ -1,0 +1,38 @@
+/* PHASE 2: Notifications */
+.badge {
+  border-radius: 50%;
+  background-color: black;
+  padding: 1px 6px;
+}
+
+.header-list li:first-child {
+  position: relative;
+}
+
+.absolute {
+  display: none;
+  position: absolute;
+  background-color: white;
+  color: black;
+  white-space: nowrap;
+  font-size: 14px;
+  border: 1px solid gray;
+  border-radius: 7px;
+  overflow: auto;
+}
+
+li:hover .absolute {
+  display: block;
+}
+
+.absolute > li:hover {
+  background-color: lightgray;
+}
+
+.absolute > li {
+  border-bottom: 1px solid grey
+}
+
+.absolute:last-child {
+  border-bottom: none;
+}
