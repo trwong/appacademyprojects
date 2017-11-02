@@ -1,0 +1,14 @@
+<h1><%= @post.title %></h1>
+<br>
+<div>url: </div> <%= @post.url %>
+<div>content: </div> <%= @post.content %>
+
+<h3>Comments</h3>
+<%= link_to "Add Comment", new_post_comment_url(@post) %>
+<br>
+<% @post.comments.each do |c| %>
+  <%= c.content %>
+  <br>
+  <%= c.author %>
+  <br>
+<% end %>

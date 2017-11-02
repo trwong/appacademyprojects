@@ -1,0 +1,11 @@
+<h1>All Subs</h1>
+
+<%= button_to "Add Sub", new_sub_url, method: :get %>
+
+<% @subs.each do |s| %>
+<%= link_to s.title, sub_url(s) %>
+<%= s.description %>
+<%= s.moderator.username %>
+<%= button_to "Edit", edit_sub_url(s), method: :get %>
+<%= button_to "Delete", sub_url(s), method: :delete %>
+<% end %>

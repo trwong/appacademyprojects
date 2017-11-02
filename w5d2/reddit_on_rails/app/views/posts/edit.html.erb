@@ -1,0 +1,26 @@
+<h1>Edit Post</h1>
+
+<%= link_to "Back to All Subs", subs_url %>
+
+
+<form class="" action="<%= post_url %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <label>Title <input type="text" name="post[title]" value="<%= @post.title %>">
+  </label>
+  <br>
+  <label>URL <input type="text" name="post[url]" value="<%= @post.url %>">
+  </label>
+  <br>
+  <label>content <textarea name="post[content]" rows="8" cols="40"><%= @post.content %></textarea>
+  </label>
+  <br>
+
+  <% Sub.all.each do |s| %>
+  <label><%= s.title %><input type="checkbox" name="post[sub_ids][]" value="<%= s.id %>" <%= "checked" if @post.sub_ids.include?(s.id) %> >
+  </label>
+  <br>
+  <% end %>
+
+  <input type="submit" name="" value="Edit Post">
+</form>
