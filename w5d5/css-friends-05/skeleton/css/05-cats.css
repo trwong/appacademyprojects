@@ -1,0 +1,17 @@
+/* PHASE 5: Cats */
+.content-header {
+  background: url(../cats.jpg);
+  min-height: 200px;
+  width: 900px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.content-header h1 {
+  position: absolute;
+}
+
+.content-header-add-friend {
+  position: absolute;
+}
