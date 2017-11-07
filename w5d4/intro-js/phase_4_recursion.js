@@ -111,4 +111,4 @@ function merge(arr1, arr2) {
 }
 
 // console.log(mergesort([9,3]))
-console.log(mergesort([3,5,7,8,9,2,4,5,7,1,23,1]))
+// console.log(mergesort([3,5,7,8,9,2,4,5,7,1,23,1]))
