@@ -1,0 +1,22 @@
+body {
+  font-family: sans-serif;
+}
+
+.follow-toggle {
+  padding: 10px;
+  background-color: #ff66ff;
+  border-radius: 5px;
+  color: maroon;
+  margin: 20px;
+}
+
+.follow-toggle:hover {
+  background-color: #cc00cc;
+  transform: scale(1.1);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: red;
+}
