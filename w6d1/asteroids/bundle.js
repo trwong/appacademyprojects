@@ -68,19 +68,19 @@
 /***/ (function(module, exports) {
 
 function MovingObject(options) {
-  this.posx = options['posx'];
-  this.posy = options['posy'];
+  this.pos = options['pos'];
   this.vel  = options['vel'];
   this.radius = options['radius'];
-  this.color = 'black';
+  this.color = options['color'];
+  this.game = options['game'];
 }
 
 MovingObject.prototype.draw = function(ctx) {
   ctx.fillStyle = this.color;
   ctx.beginPath();
   ctx.arc(
-    this.posx, // CHECK HERE FOR ISSUES WITH X, Y COORDS
-    this.posy,
+    this.pos[0], // CHECK HERE FOR ISSUES WITH X, Y COORDS
+    this.pos[1],
     this.radius,
     0,
     2 * Math.PI,
@@ -90,8 +90,22 @@ MovingObject.prototype.draw = function(ctx) {
 };
 
 MovingObject.prototype.move = function() {
-  this.posx += this.vel[0]; // CHECK HERE FOR ISSUES WITH X, Y COORDS
-  this.posy += this.vel[1];
+  this.pos[0] += this.vel[0]; // CHECK HERE FOR ISSUES WITH X, Y COORDS
+  this.pos[1] += this.vel[1];
+  this.pos = this.game.wrap(this.pos);
+};
+
+MovingObject.prototype.isCollidedWith = function(otherObject) {
+  //Dist between formula
+  //Dist([x_1, y_1], [x_2, y_2]) = sqrt((x_1 - x_2) ** 2 + (y_1 - y_2) ** 2)
+
+  let xDiff = this.pos[0] - otherObject.pos[0];
+  let yDiff = this.pos[1] - otherObject.pos[1];
+  let distance = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+  if (distance < this.radius + otherObject.radius) {
+    return true;
+  }
+  return false;
 };
 
 module.exports = MovingObject;
@@ -17279,7 +17293,7 @@ function GameView(ctx) {
 }
 
 GameView.prototype.start = function() {
-  setInterval(this.game.moveObjects.bind(this.game), 20);
+  setInterval(this.game.step.bind(this.game, this.ctx), 20);
   setInterval(this.game.draw.bind(this.game, this.ctx), 20);
 };
 
@@ -17295,7 +17309,7 @@ const Asteroid = __webpack_require__(7);
 
 const DIM_X = 500;
 const DIM_Y = 500;
-const NUM_ASTEROIDS = 10;
+const NUM_ASTEROIDS = 4;
 
 function Game() {
   this.asteroids = [];
@@ -17305,19 +17319,13 @@ function Game() {
 }
 
 Game.prototype.addAsteroids = function() {
-  let x = this.randomPosition();
-  let y = this.randomPosition();
-  // console.log("type of rand", randPos[0]);
-  // console.log(randPos);
-  let z = new Asteroid(x, y);
-  // console.log(x);
-
-  return z;
+  return new Asteroid(this.randomPosition(), this);
 };
 
 Game.prototype.randomPosition = function() {
-  var x = Math.floor(Math.random() * DIM_X);
-  return x;
+  var x = Math.random() * DIM_X;
+  var y = Math.random() * DIM_Y;
+  return [x, y];
 };
 
 Game.prototype.draw = function(ctx) {
@@ -17336,7 +17344,43 @@ Game.prototype.moveObjects = function(ctx) {
 };
 
 Game.prototype.wrap = function(pos) {
-  
+  if (pos[0] > DIM_X) {
+    pos[0] = 1;
+  }
+  else if (pos[0] < 0) {
+    pos[0] = DIM_X - 1;
+  }
+  if (pos[1] > DIM_Y) {
+    pos[1] = 1;
+  }
+  else if (pos[1] < 0) {
+    pos[1] = DIM_Y - 1;
+  }
+  return pos;
+};
+
+Game.prototype.checkCollisions = function() {
+  for (let i = 0; i < this.asteroids.length; i++) {
+    for (let j = 0; j < this.asteroids.length; j++) {
+      if (i === j) continue;
+      if (this.asteroids[i].isCollidedWith(this.asteroids[j])) {
+        alert("Collision!");
+      }
+    }
+  }
+};
+
+Game.prototype.step = function(ctx) {
+  this.moveObjects(ctx);
+  this.checkCollisions();
+};
+
+Game.prototype.remove = function(asteroid) {
+  for (let i = 0; i < this.asteroids.length; i++) {
+    if (this.asteroids[i].pos[0] === asteroid.pos[0] && this.asteroids[i].pos[1] === asteroid.pos[1]) {
+      this.asteroids.splice(i, 1);
+    }
+  }
 };
 
 module.exports = Game;
@@ -17349,13 +17393,13 @@ module.exports = Game;
 const Util = __webpack_require__(8);
 const MovingObject = __webpack_require__(0);
 
-function Asteroid (posx, posy, COLOR = 'gray', RADIUS = 5) {
+function Asteroid (pos, game, COLOR = 'gray', RADIUS = 20) {
   let options = {
+    game: game,
     color: COLOR,
     radius: RADIUS,
-    posx: posx,
-    posy: posy,
-    vel: Util.randomVec(5)
+    pos: pos,
+    vel: Util.randomVec(3)
   };
   MovingObject.call(this, options);
 }

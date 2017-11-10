@@ -3,7 +3,7 @@ const Asteroid = require('./asteroid.js');
 
 const DIM_X = 500;
 const DIM_Y = 500;
-const NUM_ASTEROIDS = 10;
+const NUM_ASTEROIDS = 4;
 
 function Game() {
   this.asteroids = [];
@@ -13,19 +13,13 @@ function Game() {
 }
 
 Game.prototype.addAsteroids = function() {
-  let x = this.randomPosition();
-  let y = this.randomPosition();
-  // console.log("type of rand", randPos[0]);
-  // console.log(randPos);
-  let z = new Asteroid(x, y);
-  // console.log(x);
-
-  return z;
+  return new Asteroid(this.randomPosition(), this);
 };
 
 Game.prototype.randomPosition = function() {
-  var x = Math.floor(Math.random() * DIM_X);
-  return x;
+  var x = Math.random() * DIM_X;
+  var y = Math.random() * DIM_Y;
+  return [x, y];
 };
 
 Game.prototype.draw = function(ctx) {
@@ -44,7 +38,43 @@ Game.prototype.moveObjects = function(ctx) {
 };
 
 Game.prototype.wrap = function(pos) {
-  
+  if (pos[0] > DIM_X) {
+    pos[0] = 1;
+  }
+  else if (pos[0] < 0) {
+    pos[0] = DIM_X - 1;
+  }
+  if (pos[1] > DIM_Y) {
+    pos[1] = 1;
+  }
+  else if (pos[1] < 0) {
+    pos[1] = DIM_Y - 1;
+  }
+  return pos;
+};
+
+Game.prototype.checkCollisions = function() {
+  for (let i = 0; i < this.asteroids.length; i++) {
+    for (let j = 0; j < this.asteroids.length; j++) {
+      if (i === j) continue;
+      if (this.asteroids[i].isCollidedWith(this.asteroids[j])) {
+        alert("Collision!");
+      }
+    }
+  }
+};
+
+Game.prototype.step = function(ctx) {
+  this.moveObjects(ctx);
+  this.checkCollisions();
+};
+
+Game.prototype.remove = function(asteroid) {
+  for (let i = 0; i < this.asteroids.length; i++) {
+    if (this.asteroids[i].pos[0] === asteroid.pos[0] && this.asteroids[i].pos[1] === asteroid.pos[1]) {
+      this.asteroids.splice(i, 1);
+    }
+  }
 };
 
 module.exports = Game;
